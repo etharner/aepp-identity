@@ -4,7 +4,7 @@
   "author": "Sascha Hanse <shanse@posteo.de>",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "serve": "vue-cli-service serve -https",
     "serve:android": "npm run build:cordova && cordova run android",
     "build": "vue-cli-service build",
     "build:cordova": "IS_CORDOVA=true npm run build",
