@@ -1,5 +1,7 @@
-os: osx
 language: node_js
+os:
+  - linux
+  - osx
 node_js:
 - '8'
 cache:
@@ -9,17 +11,19 @@ before_install:
 - npm i -g npm@6.1.0
 install:
 - travis_wait npm install
-before_deploy:
-- brew install imagemagick
-- npm run build:cordova
-- npx cordova prepare ios
-- npm run gen:cordova-resources
-- npx cordova build ios
-- tar -czvf aeternity.app.tar.gz -C platforms/ios/build/emulator aeternity.app
+script:
+  - if [[ $TRAVIS_OS_NAME != "osx" ]]; then npm test; fi
+before_deploy: bash scripts/before-deploy.sh
 deploy:
-  provider: releases
-  api_key: $GITHUB_TOKEN
-  file: aeternity.app.tar.gz
-  skip_cleanup: true
-  on:
-    tags: true
+  - provider: script
+    skip_cleanup: true
+    script: bash scripts/deploy.sh
+    on:
+      all_branches: true
+  - provider: releases
+    api_key: $GITHUB_TOKEN
+    file: aeternity.app.tar.gz
+    skip_cleanup: true
+    on:
+      condition: $TRAVIS_OS_NAME = osx
+      tags: true
