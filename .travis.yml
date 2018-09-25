@@ -11,24 +11,18 @@ before_install:
 install:
 - travis_wait npm install
 before_deploy:
-- npm run build:cordova
-- npx cordova platform add ios
 - /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 - brew install imagemagick
+- npm run build:cordova
+- npx cordova prepare ios
 - npm run gen:cordova-resources
 - npm run build:ios
 - tar -czvf aeternity.app.tar.gz -C platforms/ios/build/emulator aeternity.app
-- git config --local user.name "etharner"
-- git config --local user.email "etharner@gmail.com"
-- git tag travis-ios-build
 deploy:
   provider: releases
-  api_key:
-    secure: NRmXFxAN1HGLInrzBiO2T4Hak6Jqq0kc32Orgqy84o/v01g+FLAIcyZRJ1kbAF7pWbjHV7M/YxCzSH+/7DG6jqSO2sF0O6VkDml+isPlkE2uCvsTRdC4Q5kcL7KZUtYT7uJKNJj2Nj2es/Q64NsOZbpj97lvCscu7OnnYxO5c9ZBoko4LfYlevKhn5YYlI5RfcnbvtdVwkU7pSUUrm9myXxBFE/OS237dSwin8UoLAwzXnMHdNH1HyF7fHqsTFCYxqnXdlnhLXnlRHdhabXYbPorMQwgS3RXt0Gb/9yCO+p0r88J8N7HAcVeG5XGTGmMc5+1u2x0en26FXCYwSE/5wtBOjP6zF7oa1C437O7ndgOtwlnJtafGa9N2ksb4hLaB3uKIB2Pgsu/rccHie1lcBUBbcN4xJLQG4JaUnLiqxcsfJuG/EK1p0eRWh3ei5oXgI2SKcKD9M1oJE/KAmJ0b4nM3US7Qveo8bCkVIVB/y5R5X41Mra5buPhfTPeyapMJ6cIz8fZJ03FANx4Sp4y0JU3HN9uTjJPa5sjWu8J7jhinHB51r5SCrHAIiS7QfqNa2wL7swFLXgZM4fv5XERiAoEFMXNxb3zDz8fKlOhGZNo4kgsDzz4gAhHwVApVC3fvEIsr77YuglPVdl7+R7gTKOVxM9+lsoOSbJVqa3f/iw=
-  file_glob: true
+  api_key: $GITHUB_TOKEN
   file: aeternity.app.tar.gz
   skip_cleanup: true
-  overwrite: true
   on:
     repo: etharner/aepp-identity
     branch: develop
