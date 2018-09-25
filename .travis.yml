@@ -10,7 +10,6 @@ before_install:
 install:
 - travis_wait npm install
 before_deploy:
-- /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 - brew install imagemagick
 - npm run build:cordova
 - npx cordova prepare ios
