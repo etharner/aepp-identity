@@ -15,7 +15,7 @@ before_deploy:
 - npm run build:cordova
 - npx cordova prepare ios
 - npm run gen:cordova-resources
-- npm run build:ios
+- npx cordova build ios
 - tar -czvf aeternity.app.tar.gz -C platforms/ios/build/emulator aeternity.app
 deploy:
   provider: releases
