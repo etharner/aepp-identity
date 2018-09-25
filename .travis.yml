@@ -3,14 +3,14 @@ os:
   - linux
   - osx
 node_js:
-- '8'
+  - '8'
 cache:
   directories:
     - node_modules
 before_install:
-- npm i -g npm@6.1.0
+  - npm i -g npm@6.1.0
 install:
-- travis_wait npm install
+  - travis_wait npm install
 script:
   - if [[ $TRAVIS_OS_NAME != "osx" ]]; then npm test; fi
 before_deploy: bash scripts/before-deploy.sh
