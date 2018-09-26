@@ -7,20 +7,22 @@ node_js:
 cache:
   directories:
     - node_modules
-    - $HOME/Library/Caches/Homebrew 
+    - platforms
+    - plugins
 before_install:
   - npm i -g npm@6.1.0
-install:
+install: 
   - travis_wait npm install
+  - bash scripts/install.sh
 script:
   - if [[ $TRAVIS_OS_NAME != "osx" ]]; then npm test; fi
 before_deploy: bash scripts/before-deploy.sh
 deploy:
-  - provider: script
-    skip_cleanup: true
-    script: bash scripts/deploy.sh
-    on:
-      all_branches: true
+  # - provider: script
+  #   skip_cleanup: true
+  #   script: bash scripts/deploy.sh
+  #   on:
+  #     all_branches: true
   - provider: releases
     api_key: $GITHUB_TOKEN
     file: aeternity.app.tar.gz
